@@ -2,6 +2,11 @@ const form = document.getElementById("chat-form");
 const input = document.getElementById("user-input");
 const chatbox = document.getElementById("chatbox");
 
+// Auto-trigger first question
+window.addEventListener("DOMContentLoaded", () => {
+  appendMessage("Pension Guru", "Hello! Is this retirement planning question for the UK or Ireland?", "planner");
+});
+
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -22,9 +27,9 @@ form.addEventListener("submit", async (e) => {
     });
 
     const data = await res.json();
-    appendMessage("Planner", data.response || "Something went wrong.", "planner");
+    appendMessage("Pension Guru", data.response || "Something went wrong.", "planner");
   } catch (err) {
-    appendMessage("Planner", "⚠️ Failed to connect to server.", "planner");
+    appendMessage("Pension Guru", "⚠️ Failed to connect to server.", "planner");
   }
 });
 
