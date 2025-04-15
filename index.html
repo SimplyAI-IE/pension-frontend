@@ -29,10 +29,21 @@
   </script>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
-  function showUserGreeting(name) {
-    const loginDiv = document.getElementById("google-login");
-    loginDiv.innerHTML = `<p style="margin: 0;">👋 Welcome, ${name}</p>`;
-  }
+function showUserGreeting(name) {
+  const loginDiv = document.getElementById("google-login");
+  loginDiv.innerHTML = `
+    <div style="display: flex; flex-direction: column; align-items: flex-start;">
+      <p style="margin: 0;">👋 Welcome, ${name}</p>
+      <button onclick="logout()" style="margin-top: 6px; font-size: 0.9rem;">Log Out</button>
+    </div>
+  `;
+}
+
+function logout() {
+  sessionStorage.clear();
+  document.getElementById("chatbox").innerHTML = "";
+  window.location.reload();
+}
 
   function handleGoogleLogin(response) {
     const user = parseJwt(response.credential);
