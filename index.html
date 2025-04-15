@@ -41,9 +41,13 @@ function showUserGreeting(name) {
 
 function logout() {
   sessionStorage.clear();
-  document.getElementById("chatbox").innerHTML = "";
+  const chatbox = document.getElementById("chatbox");
+  while (chatbox.firstChild) {
+    chatbox.removeChild(chatbox.firstChild);
+  }
   window.location.reload();
 }
+
 
   function handleGoogleLogin(response) {
     const user = parseJwt(response.credential);
