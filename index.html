@@ -27,46 +27,56 @@
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script>
-    function handleGoogleLogin(response) {
-      const user = parseJwt(response.credential);
-  
-      fetch("https://api.simplyai.ie/auth/google", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(user)
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.user_id) {
-          sessionStorage.setItem("user_id", data.user_id);
-          console.log("Logged in:", data.user_id);
-        }
-      })
-      .catch(err => console.error("Auth error:", err));
-    }
-  
-    function parseJwt(token) {
-      const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
-      const json = decodeURIComponent(atob(base64).split('').map(c =>
-        '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-      ).join(''));
-      return JSON.parse(json);
-    }
-  
-    window.onload = function () {
-      google.accounts.id.initialize({
-        client_id: "928041952256-7icrdsje40ut8vgflooomngbote4qhsq.apps.googleusercontent.com",
-        callback: handleGoogleLogin,
-      });
-  
-      google.accounts.id.renderButton(
-        document.getElementById("google-login"),
-        { theme: "outline", size: "large" }
-      );
-    };
-  </script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+  function showUserGreeting(name) {
+    const loginDiv = document.getElementById("google-login");
+    loginDiv.innerHTML = `<p style="margin: 0;">👋 Welcome, ${name}</p>`;
+  }
+
+  function handleGoogleLogin(response) {
+    const user = parseJwt(response.credential);
+
+    fetch("https://api.simplyai.ie/auth/google", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(user)
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.user_id) {
+        sessionStorage.setItem("user_id", data.user_id);
+        sessionStorage.setItem("user_name", user.name);
+        showUserGreeting(user.name);
+      }
+    })
+    .catch(err => console.error("Auth error:", err));
+  }
+
+  function parseJwt(token) {
+    const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    const json = decodeURIComponent(atob(base64).split('').map(c =>
+      '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+    ).join(''));
+    return JSON.parse(json);
+  }
+
+  window.onload = function () {
+    const name = sessionStorage.getItem("user_name");
+    if (name) showUserGreeting(name);
+
+    google.accounts.id.initialize({
+      client_id: "928041952256-7icrdsje40ut8vgflooomngbote4qhsq.apps.googleusercontent.com",
+      callback: handleGoogleLogin,
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById("google-login"),
+      { theme: "outline", size: "large" }
+    );
+  };
+</script>
+
   
   
 </body>
