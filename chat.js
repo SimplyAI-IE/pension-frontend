@@ -13,7 +13,9 @@ form.addEventListener("submit", async (e) => {
   const userMessage = input.value.trim();
   if (!userMessage) return;
 
-  appendMessage("You", userMessage, "user");
+  const firstName = (sessionStorage.getItem("user_name") || "You").split(" ")[0];
+  appendMessage(firstName, userMessage, "user");
+  
   input.value = "";
 
   try {
