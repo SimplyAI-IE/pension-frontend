@@ -21,7 +21,7 @@ form.addEventListener("submit", async (e) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        user_id: "frontend-test-user",
+        user_id: sessionStorage.getItem("user_id") || "guest",
         message: userMessage
       })
     });

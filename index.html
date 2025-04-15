@@ -9,6 +9,8 @@
 <body>
   <div class="container">
     <h1>Pension Planner</h1>
+    <div id="google-login" style="margin-bottom: 20px;"></div>
+
     <div id="chatbox"></div>
     <form id="chat-form">
       <input type="text" id="user-input" placeholder="Type your question..." required />
@@ -25,5 +27,42 @@
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script>
+    window.onload = function () {
+      google.accounts.id.initialize({
+        client_id: "YOUR_GOOGLE_CLIENT_ID",
+        callback: handleGoogleLogin,
+      });
+      google.accounts.id.renderButton(
+        document.getElementById("google-login"),
+        { theme: "outline", size: "large" }
+      );
+    };
+  
+    async function handleGoogleLogin(response) {
+      const decoded = parseJwt(response.credential);
+  
+      const res = await fetch("https://api.simplyai.ie/auth/google", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(decoded)
+      });
+  
+      const data = await res.json();
+      if (data.user_id) {
+        sessionStorage.setItem("user_id", data.user_id);
+      }
+    }
+  
+    function parseJwt(token) {
+      const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+      const json = decodeURIComponent(atob(base64).split('').map(c =>
+        '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+      ).join(''));
+      return JSON.parse(json);
+    }
+  </script>
+  
 </body>
 </html>
