@@ -1,6 +1,6 @@
 body {
   font-family: system-ui, sans-serif;
-  background: #f9f9f9;
+  background: #f5f7fa;
   padding: 0;
   margin: 0;
 }
@@ -20,12 +20,36 @@ body {
   padding: 10px;
   border: 1px solid #ddd;
   margin-bottom: 10px;
-  background: #fafafa;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .message {
-  margin-bottom: 10px;
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 12px;
   line-height: 1.4;
+  white-space: pre-wrap;
+}
+
+.message strong {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.message.user {
+  align-self: flex-end;
+  background-color: #dcfce7;
+  border: 1px solid #b2f5bb;
+}
+
+.message.planner {
+  align-self: flex-start;
+  background-color: #eef1f5;
+  border: 1px solid #ccd1d8;
 }
 
 #chat-form {

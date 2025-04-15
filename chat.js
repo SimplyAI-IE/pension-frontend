@@ -8,7 +8,7 @@ form.addEventListener("submit", async (e) => {
   const userMessage = input.value.trim();
   if (!userMessage) return;
 
-  appendMessage("You", userMessage);
+  appendMessage("You", userMessage, "user");
   input.value = "";
 
   try {
@@ -22,16 +22,21 @@ form.addEventListener("submit", async (e) => {
     });
 
     const data = await res.json();
-    appendMessage("Planner", data.response || "Something went wrong.");
+    appendMessage("Planner", data.response || "Something went wrong.", "planner");
   } catch (err) {
-    appendMessage("Planner", "⚠️ Failed to connect to server.");
+    appendMessage("Planner", "⚠️ Failed to connect to server.", "planner");
   }
 });
 
-function appendMessage(sender, text) {
-  const message = document.createElement("div");
-  message.classList.add("message");
-  message.innerHTML = `<strong>${sender}:</strong> ${text}`;
-  chatbox.appendChild(message);
+function appendMessage(sender, text, role) {
+  const parts = text.split(/\n{2,}/); // split on double newlines
+
+  parts.forEach(part => {
+    const message = document.createElement("div");
+    message.classList.add("message", role);
+    message.innerHTML = `<strong>${sender}:</strong> ${part.trim()}`;
+    chatbox.appendChild(message);
+  });
+
   chatbox.scrollTop = chatbox.scrollHeight;
 }
