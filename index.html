@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Pension Planner</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
@@ -15,6 +15,15 @@
       <button type="submit">Send</button>
     </form>
   </div>
+
+  <footer class="footer">
+    <img src="https://simplyai.ie/buddy-icon.png" alt="SimplyAI Logo" class="footer-logo" />
+    <p class="footer-text">© <span id="year"></span> SimplyAI. All rights reserved.</p>
+  </footer>
+
   <script src="chat.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
