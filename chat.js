@@ -10,12 +10,17 @@ window.addEventListener("DOMContentLoaded", () => {
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  const userId = sessionStorage.getItem("user_id");
+  if (!userId) {
+    alert("Please sign in to use the chat.");
+    return;
+  }
+
   const userMessage = input.value.trim();
   if (!userMessage) return;
 
   const firstName = (sessionStorage.getItem("user_name") || "You").split(" ")[0];
   appendMessage(firstName, userMessage, "user");
-  
   input.value = "";
 
   try {
@@ -23,7 +28,7 @@ form.addEventListener("submit", async (e) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        user_id: sessionStorage.getItem("user_id") || "guest",
+        user_id: userId,
         message: userMessage
       })
     });
