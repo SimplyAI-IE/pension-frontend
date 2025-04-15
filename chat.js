@@ -2,7 +2,6 @@ const form = document.getElementById("chat-form");
 const input = document.getElementById("user-input");
 const chatbox = document.getElementById("chatbox");
 
-
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -48,3 +47,22 @@ function appendMessage(sender, text, role) {
 
   chatbox.scrollTop = chatbox.scrollHeight;
 }
+
+// Auto-trigger GPT greeting after login
+window.addEventListener("DOMContentLoaded", () => {
+  const userId = sessionStorage.getItem("user_id");
+  if (userId) {
+    fetch("https://api.simplyai.ie/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_id: userId,
+        message: "__INIT__"
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      appendMessage("Pension Guru", data.response || "Welcome!", "planner");
+    });
+  }
+});
