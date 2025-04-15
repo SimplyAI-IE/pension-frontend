@@ -2,10 +2,6 @@ const form = document.getElementById("chat-form");
 const input = document.getElementById("user-input");
 const chatbox = document.getElementById("chatbox");
 
-// Auto-trigger first question
-window.addEventListener("DOMContentLoaded", () => {
-  appendMessage("Pension Guru", "Hello! Is this retirement planning question for the UK or Ireland?", "planner");
-});
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
