@@ -38,20 +38,49 @@
       loginDiv.innerHTML = `
         <div style="display: flex; flex-direction: column; align-items: flex-start;">
           <p style="margin: 0;">👋 Welcome, ${name}</p>
-          <button onclick="logout()" style="margin-top: 6px; font-size: 0.9rem;">Log Out</button>
+          <label style="font-size: 0.9rem; margin-top: 6px;">
+  <input type="checkbox" id="forget-history" />
+  Forget everything on logout
+</label>
+<button onclick="logout()" style="margin-top: 6px; font-size: 0.9rem;">Log Out</button>
+
         </div>
       `;
       document.getElementById("chat-ui").style.display = "block";
     }
 
     function logout() {
-      sessionStorage.clear();
-      const chatbox = document.getElementById("chatbox");
-      while (chatbox.firstChild) {
-        chatbox.removeChild(chatbox.firstChild);
-      }
-      window.location.reload();
+  const userId = sessionStorage.getItem("user_id");
+  const forget = document.getElementById("forget-history")?.checked;
+
+  const doLogout = () => {
+    sessionStorage.clear();
+    const chatbox = document.getElementById("chatbox");
+    while (chatbox.firstChild) {
+      chatbox.removeChild(chatbox.firstChild);
     }
+    window.location.reload();
+  };
+
+  if (forget && userId) {
+    fetch("https://api.simplyai.ie/chat/forget", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ user_id: userId })
+    })
+    .then(() => {
+      console.log("Chat history cleared.");
+      doLogout();
+    })
+    .catch(err => {
+      console.error("Failed to clear chat:", err);
+      doLogout();
+    });
+  } else {
+    doLogout();
+  }
+}
+
 
     function handleGoogleLogin(response) {
   const user = parseJwt(response.credential);
