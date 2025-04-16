@@ -6,6 +6,11 @@ form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const tone = sessionStorage.getItem("user_tone");
+  const userId = sessionStorage.getItem("user_id");
+  if (!userId) {
+    alert("Please sign in to use the chat.");
+    return;
+  }
 
   const res = await fetch("https://api.simplyai.ie/chat", {
     method: "POST",
@@ -17,11 +22,7 @@ form.addEventListener("submit", async (e) => {
     })
   });
 
-  const userId = sessionStorage.getItem("user_id");
-  if (!userId) {
-    alert("Please sign in to use the chat.");
-    return;
-  }
+
 
   const userMessage = input.value.trim();
   if (!userMessage) return;
