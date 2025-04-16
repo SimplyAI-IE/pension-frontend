@@ -62,6 +62,12 @@
     window.location.reload();
   };
 
+  // fallback timeout (in case forget request hangs)
+  const forceLogoutTimeout = setTimeout(() => {
+    console.warn("Forcing logout after 3 seconds");
+    doLogout();
+  }, 3000);
+
   if (forget && userId) {
     fetch("https://api.simplyai.ie/chat/forget", {
       method: "POST",
@@ -69,17 +75,21 @@
       body: JSON.stringify({ user_id: userId })
     })
     .then(() => {
+      clearTimeout(forceLogoutTimeout);
       console.log("Chat history cleared.");
       doLogout();
     })
     .catch(err => {
+      clearTimeout(forceLogoutTimeout);
       console.error("Failed to clear chat:", err);
       doLogout();
     });
   } else {
+    clearTimeout(forceLogoutTimeout);
     doLogout();
   }
 }
+
 
 
     function handleGoogleLogin(response) {
