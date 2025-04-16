@@ -43,6 +43,11 @@ function appendMessage(sender, text, role) {
     message.classList.add("message", role);
     message.innerHTML = `<strong>${sender}:</strong> ${part.trim()}`;
     chatbox.appendChild(message);
+    if (role === "planner") {
+      const btn = document.getElementById("download-pdf");
+      if (btn) btn.disabled = false;
+    }
+    
   });
 
   chatbox.scrollTop = chatbox.scrollHeight;

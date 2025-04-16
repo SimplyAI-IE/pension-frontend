@@ -38,7 +38,7 @@
       loginDiv.innerHTML = `
         <div style="display: flex; flex-direction: column; align-items: flex-start;">
           <p style="margin: 0;">👋 Welcome, ${name}</p>
-          <a href="#" id="download-pdf" style="margin: 8px 0; font-size: 0.9rem;">📄 Download My Plan</a>
+          <button id="download-pdf" disabled style="margin: 8px 0; font-size: 0.9rem;">📄 Download Chat</button>
           <label style="font-size: 0.9rem; margin-top: 6px;">
   <input type="checkbox" id="forget-history" />
   Forget everything on logout
@@ -51,11 +51,14 @@
     }
 
     function setupDownloadButton(userId) {
-  const downloadLink = document.getElementById("download-pdf");
-  if (downloadLink) {
-    downloadLink.href = `https://api.simplyai.ie/export-pdf?user_id=${userId}`;
+  const button = document.getElementById("download-pdf");
+  if (button) {
+    button.onclick = () => {
+      window.location.href = `https://api.simplyai.ie/export-pdf?user_id=${userId}`;
+    };
   }
 }
+
 
 
     function logout() {
