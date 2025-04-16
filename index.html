@@ -38,6 +38,7 @@
       loginDiv.innerHTML = `
         <div style="display: flex; flex-direction: column; align-items: flex-start;">
           <p style="margin: 0;">👋 Welcome, ${name}</p>
+          <a href="#" id="download-pdf" style="margin: 8px 0; font-size: 0.9rem;">📄 Download My Plan</a>
           <label style="font-size: 0.9rem; margin-top: 6px;">
   <input type="checkbox" id="forget-history" />
   Forget everything on logout
@@ -48,6 +49,14 @@
       `;
       document.getElementById("chat-ui").style.display = "block";
     }
+
+    function setupDownloadButton(userId) {
+  const downloadLink = document.getElementById("download-pdf");
+  if (downloadLink) {
+    downloadLink.href = `https://api.simplyai.ie/export-pdf?user_id=${userId}`;
+  }
+}
+
 
     function logout() {
   const userId = sessionStorage.getItem("user_id");
@@ -106,6 +115,7 @@
       sessionStorage.setItem("user_id", data.user_id);
       sessionStorage.setItem("user_name", user.name);
       showUserGreeting(user.name);
+      setupDownloadButton(data.user_id);
       triggerInitialGreeting(data.user_id);
     }
   })
@@ -140,6 +150,8 @@
     window.onload = function () {
       const name = sessionStorage.getItem("user_name");
       if (name) showUserGreeting(name);
+      const id = sessionStorage.getItem("user_id");
+      if (id) setupDownloadButton(id);
 
       google.accounts.id.initialize({
         client_id: "928041952256-7icrdsje40ut8vgflooomngbote4qhsq.apps.googleusercontent.com",

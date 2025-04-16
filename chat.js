@@ -66,3 +66,20 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+function triggerInitialGreeting(userId) {
+  fetch("https://api.simplyai.ie/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      user_id: userId,
+      message: "__INIT__"
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    appendMessage("Pension Guru", data.response || "Welcome!", "planner");
+  })
+  .catch(err => console.error("Init message failed:", err));
+}
+
