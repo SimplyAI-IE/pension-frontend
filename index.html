@@ -38,6 +38,15 @@
       loginDiv.innerHTML = `
         <div style="display: flex; flex-direction: column; align-items: flex-start;">
           <p style="margin: 0;">👋 Welcome, ${name}</p>
+          <label for="tone-select" style="font-size: 0.9rem; margin-top: 6px;">Talk like I am:</label>
+          <select id="tone-select" onchange="saveTone()" style="margin-bottom: 10px;">
+            <option value="">— Select Level —</option>
+            <option value="7">A 7-year-old 🧒</option>
+            <option value="14">A 14-year-old 🧑</option>
+            <option value="adult">An average adult 🙂</option>
+            <option value="pro">A financial professional 📈</option>
+            <option value="genius">A genius professor 🧠</option>
+          </select>
           <button id="download-pdf" disabled style="margin: 8px 0; font-size: 0.9rem;">📄 Download Chat</button>
           <label style="font-size: 0.9rem; margin-top: 6px;">
   <input type="checkbox" id="forget-history" />
@@ -166,6 +175,11 @@
         { theme: "outline", size: "large" }
       );
     };
+    function saveTone() {
+  const tone = document.getElementById("tone-select").value;
+  sessionStorage.setItem("user_tone", tone);
+}
+
   </script>
 </body>
 </html>
