@@ -29,32 +29,6 @@ form.addEventListener("submit", async (e) => {
 });
 
 
-
-
-  const userMessage = input.value.trim();
-  if (!userMessage) return;
-
-  const firstName = (sessionStorage.getItem("user_name") || "You").split(" ")[0];
-  appendMessage(firstName, userMessage, "user");
-  input.value = "";
-
-  try {
-    const res = await fetch("https://api.simplyai.ie/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        user_id: userId,
-        message: userMessage
-      })
-    });
-
-    const data = await res.json();
-    appendMessage("Pension Guru", data.response || "Something went wrong.", "planner");
-  } catch (err) {
-    appendMessage("Pension Guru", "⚠️ Failed to connect to server.", "planner");
-  }
-});
-
 function appendMessage(sender, text, role) {
   const parts = text.split(/\n{2,}/); // split on double newlines
 
