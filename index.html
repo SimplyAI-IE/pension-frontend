@@ -128,7 +128,7 @@
       sessionStorage.setItem("user_name", user.name);
       showUserGreeting(user.name);
       setupDownloadButton(data.user_id);
-      triggerInitialGreeting(data.user_id);
+      initGreeting(data.user_id);
     }
   })
   .catch(err => console.error("Auth error:", err));
