@@ -35,7 +35,12 @@ function appendMessage(sender, text, role) {
   parts.forEach(part => {
     const message = document.createElement("div");
     message.classList.add("message", role);
-    message.innerHTML = `<strong>${sender}:</strong> ${part.trim()}`;
+    const formatted = part.trim().replace(
+      /(https?:\/\/[^\s]+)/g,
+      '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+    );
+    message.innerHTML = `<strong>${sender}:</strong> ${formatted}`;
+    
     chatbox.appendChild(message);
     if (role === "planner") {
       const btn = document.getElementById("download-pdf");
