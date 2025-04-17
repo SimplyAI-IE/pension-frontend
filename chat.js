@@ -5,12 +5,14 @@ const chatbox = document.getElementById("chatbox");
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const tone = sessionStorage.getItem("user_tone");
   const userId = sessionStorage.getItem("user_id");
-  if (!userId) {
-    alert("Please sign in to use the chat.");
-    return;
-  }
+  const userMessage = input.value.trim();
+  const tone = sessionStorage.getItem("user_tone");
+
+  if (!userMessage) return;
+
+  appendMessage(sessionStorage.getItem("user_name")?.split(" ")[0] || "You", userMessage, "user");
+  input.value = "";
 
   const res = await fetch("https://api.simplyai.ie/chat", {
     method: "POST",
@@ -21,6 +23,11 @@ form.addEventListener("submit", async (e) => {
       tone: tone || ""
     })
   });
+
+  const data = await res.json();
+  appendMessage("Pension Guru", data.response || "Something went wrong.", "planner");
+});
+
 
 
 
