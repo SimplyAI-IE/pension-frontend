@@ -37,22 +37,26 @@
       const loginDiv = document.getElementById("google-login");
       loginDiv.innerHTML = `
         <div style="display: flex; flex-direction: column; align-items: flex-start;">
-          <p style="margin: 0;">👋 Welcome, ${name}</p>
-          <label for="tone-select" style="font-size: 0.9rem; margin-top: 6px;">Talk like I am:</label>
-          <select id="tone-select" onchange="saveTone()" style="margin-bottom: 10px;">
-            <option value="">— Select Level —</option>
-            <option value="7">A 7-year-old 🧒</option>
-            <option value="14">A 14-year-old 🧑</option>
-            <option value="adult">An average adult 🙂</option>
-            <option value="pro">A financial professional 📈</option>
-            <option value="genius">A genius professor 🧠</option>
-          </select>
-          <button id="download-pdf" disabled style="margin: 8px 0; font-size: 0.9rem;">📄 Download Chat</button>
-          <label style="font-size: 0.9rem; margin-top: 6px;">
-  <input type="checkbox" id="forget-history" />
-  Forget everything on logout
-</label>
-<button onclick="logout()" style="margin-top: 6px; font-size: 0.9rem;">Log Out</button>
+          <div style="display: flex; align-items: center; gap: 8px; margin-top: 6px; margin-bottom: 10px;">
+            <label for="tone-select" style="font-size: 0.9rem;">Talk like I am:</label>
+            <select id="tone-select" onchange="saveTone()" style="font-size: 0.9rem;">
+              <option value="">— Select Level —</option>
+              <option value="7">A 7-year-old 🧒</option>
+              <option value="14">A 14-year-old 🧑</option>
+              <option value="adult">An average adult 🙂</option>
+              <option value="pro">A financial professional 📈</option>
+              <option value="genius">A genius professor 🧠</option>
+            </select>
+          </div>
+        <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+          <button id="download-pdf" disabled style="font-size: 0.9rem;">📄 Download Chat</button>
+          <label style="font-size: 0.9rem;">
+            <input type="checkbox" id="forget-history" />
+            Forget everything
+          </label>
+          <button onclick="logout()" style="font-size: 0.9rem;">Log Out</button>
+        </div>
+
 
         </div>
       `;
